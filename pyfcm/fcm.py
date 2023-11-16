@@ -218,7 +218,7 @@ class FCMNotification(BaseAPI):
                                 content_available=None,
                                 android_channel_id=None,
                                 timeout=120,
-                                no_retry=False,
+                                no_retry=True,
                                 extra_notification_kwargs=None,
                                 extra_kwargs={}):
         """
