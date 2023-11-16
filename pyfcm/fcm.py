@@ -218,6 +218,7 @@ class FCMNotification(BaseAPI):
                                 content_available=None,
                                 android_channel_id=None,
                                 timeout=120,
+                                no_retry=False,
                                 extra_notification_kwargs=None,
                                 extra_kwargs={}):
         """
@@ -308,7 +309,7 @@ class FCMNotification(BaseAPI):
                 extra_notification_kwargs=extra_notification_kwargs,
                 **extra_kwargs
             ))
-        self.send_request(payloads, timeout)
+        self.send_request(payloads, timeout, no_retry)
         return self.parse_responses()
 
     def multiple_devices_data_message(self,

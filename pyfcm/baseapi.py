@@ -314,18 +314,18 @@ class BaseAPI(object):
 
         return self.json_dumps(fcm_payload)
 
-    def do_request(self, payload, timeout):
+    def do_request(self, payload, timeout, no_retry=True):
         response = self.requests_session.post(self.FCM_END_POINT, data=payload, timeout=timeout)
-        if 'Retry-After' in response.headers and int(response.headers['Retry-After']) > 0:
+        if no_retry is False and 'Retry-After' in response.headers and int(response.headers['Retry-After']) > 0:
             sleep_time = int(response.headers['Retry-After'])
             time.sleep(sleep_time)
             return self.do_request(payload, timeout)
         return response
 
-    def send_request(self, payloads=None, timeout=None):
+    def send_request(self, payloads=None, timeout=None, no_retry=True):
         self.send_request_responses = []
         for payload in payloads:
-            response = self.do_request(payload, timeout)
+            response = self.do_request(payload, timeout, no_retry)
             self.send_request_responses.append(response)
 
     def registration_info_request(self, registration_id):
